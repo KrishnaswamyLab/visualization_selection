@@ -5,6 +5,7 @@ import sklearn.decomposition
 import sklearn.manifold
 import umap
 import pygsp
+import graphtools
 from . import utils
 
 
@@ -89,8 +90,10 @@ def PCA(X, is_graph=False, *args, **kwargs):
 
 
 def Spring(X, is_graph=False, *args, **kwargs):
-    assert is_graph
-    G = pygsp.graphs.Graph(X)
+    if not is_graph:
+        G = graphtools.Graph(X, knn=3, decay=None, use_pygsp=True)
+    else:
+        G = pygsp.graphs.Graph(X)
     return G._fruchterman_reingold_layout(*args, **kwargs)
 
 
