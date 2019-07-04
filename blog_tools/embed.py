@@ -6,6 +6,7 @@ import sklearn.manifold
 import umap
 import pygsp
 import graphtools
+import networkx
 from . import utils
 
 
@@ -94,7 +95,10 @@ def Spring(X, is_graph=False, *args, **kwargs):
         G = graphtools.Graph(X, knn=3, decay=None, use_pygsp=True)
     else:
         G = pygsp.graphs.Graph(X)
-    return G._fruchterman_reingold_layout(*args, **kwargs)
+    G = networkx.from_numpy_matrix(G.W.toarray())
+    X = networkx.spring_layout(G, *args, **kwargs)
+    X = np.vstack(list(X.values()))
+    return X
 
 
 __all__ = [PCA, MDS, ISOMAP, TSNE, UMAP, PHATE]
