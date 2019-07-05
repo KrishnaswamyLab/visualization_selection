@@ -138,7 +138,7 @@ class sensor(Dataset):
 
     def build(self, size=100):
         G = pygsp.graphs.DavidSensorNet(N=size)
-        self.X = G.W
+        self.X = G.W.tocsr()
         self.is_graph = True
         self.c = G.dw
 
@@ -148,7 +148,7 @@ class sbm(Dataset):
     def build(self, n=3, p=0.3, q=0.05, size=100, truth_weight=0.15):
         G = pygsp.graphs.StochasticBlockModel(
             N=size, k=n, p=p, q=q, seed=self.seed)
-        self.X = G.W
+        self.X = G.W.tocsr()
         self.c = G.info['node_com']
         self.X_true = self.X.tocoo().astype(float)
         for i in range(n - 1):
@@ -166,7 +166,7 @@ class BarabasiAlbert(Dataset):
 
     def build(self, size=200):
         G = pygsp.graphs.BarabasiAlbert(size)
-        self.X = G.W
+        self.X = G.W.tocsr()
         self.c = G.dw
         self.is_graph = True
 
