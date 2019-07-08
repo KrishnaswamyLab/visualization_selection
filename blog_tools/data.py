@@ -48,14 +48,11 @@ class Dataset(metaclass=abc.ABCMeta):
         self.c = np.empty_like(self.X)  # default: None
         self.is_graph = True  # default: False
 
-    @property
-    def name(self):
-        return type(self).__name__
-
-
 class grid(Dataset):
 
-    def build(self, size=10, n_dim=20, eps=0.2):
+    def build(self, size=10, n_dim=20, noise=0.2):
+        self.name = 'Grid'
+
         x = np.linspace(0, 1, size)
         y = np.linspace(0, 1, size)
         self.X_true = np.hstack([np.repeat(x, size)[:, None],
@@ -63,41 +60,64 @@ class grid(Dataset):
         self.c = self.X_true[:, 0] + self.X_true[:, 1]
         R = np.random.normal(0, 1, (self.X_true.shape[1], n_dim))
         self.X = self.X_true @ R
-        self.X += np.random.normal(0, eps, self.X.shape)
+        self.X += np.random.normal(0, noise, self.X.shape)
+
+
+class swissroll(Dataset):
+
+    def build(self, n_samples=500, noise=0.2):
+        self.name = 'Swiss roll'
+
+        t = 1.5 * np.pi * (1 + 2 * np.random.rand(1, n_samples))
+        x = t * np.cos(t)
+        y = 26 * np.random.rand(1, n_samples)
+        z = t * np.sin(t)
+
+        self.X_true = np.concatenate((x, y, z)).T
+        self.X = self.X_true + np.random.normal(0, 1, self.X_true.shape) * noise
+        self.c = np.squeeze(t)
 
 
 class three_blobs(Dataset):
 
-    def build(self, size=50, n_dim=200, eps=10):
+    def build(self, size=50, n_dim=200, noise=10):
+        self.name = 'Three blobs'
+
         self.X_true = np.random.normal(0, 1, (size * 3, 2))
         self.X_true[:size, 0] += 10
         self.X_true[-size:, 0] += 50
         R = np.random.normal(0, 1, (self.X_true.shape[1], n_dim))
         self.X = self.X_true @ R
-        self.X += np.random.normal(0, eps, self.X.shape)
+        self.X += np.random.normal(0, noise, self.X.shape)
         self.c = np.repeat(np.arange(3), size)
 
 
 class uneven_circle(Dataset):
 
-    def build(self, size=50, n_dim=20, eps=0.4):
+    def build(self, size=50, n_dim=20, noise=0.4):
+        self.name = 'Uneven circle'
+
         theta = 2 * np.pi * np.random.uniform(0, 1, size)
         self.X_true = np.hstack(
             [np.cos(theta)[:, None], np.sin(theta)[:, None]])
         R = np.random.normal(0, 1, (self.X_true.shape[1], n_dim))
         self.X = self.X_true @ R
-        self.X += np.random.normal(0, eps, self.X.shape)
+        self.X += np.random.normal(0, noise, self.X.shape)
         self.c = theta
 
 
 class tree(Dataset):
 
     def build(self, size=500):
+        self.name = 'Tree'
         params = {'method': 'paths', 'batch_cells': size,
-                  'path_length': 500, 'group_prob': [0.05, 0.05, .1, .3, .2, .3], 'path_from': [0, 1, 1, 2, 0, 0],
-                  'de_fac_loc': 0.75, 'dropout_type': 'binomial', 'dropout_prob': 0.5, 'bcv_common': 0.05,
-                  'path_skew': [0.5, 0.75, 0.25, 0.5, 0.25, 0.9], 'path_nonlinear_prob': 0.5,
-                  'seed': self.seed, 'verbose': False}
+          'path_length': 500,
+          'path_from': [0, 1, 1, 2, 0, 0],
+          'de_fac_loc': 1, 'path_nonlinear_prob':0.5,
+          'dropout_type': 'binomial', 'dropout_prob': 0.5,
+          'path_skew': [0.5, 0.75, 0.25, 0.5, 0.25, 0.75],
+          'group_prob': [0.15, 0.05, .1, .25, .2, .25],
+          'seed': self.seed, 'verbose': False}
         sim = scprep.run.SplatSimulate(**params)
         data = sim['counts']
         data_ln = scprep.normalize.library_size_normalize(data)
@@ -107,10 +127,15 @@ class tree(Dataset):
         self.X = self.X[np.argsort(self.c)]
         self.c = np.sort(self.c)
         expand = 4
-        params = {'method': 'paths', 'batch_cells': size * expand, 'out_prob': 0,
-                  'path_length': 500, 'group_prob': [0.05, 0.05, .1, .3, .2, .3], 'path_from': [0, 1, 1, 2, 0, 0],
-                  'de_fac_loc': 0.75, 'dropout_type': 'binomial', 'dropout_prob': 0, 'bcv_common': 0.15,
-                  'path_skew': [0.5, 0.55, 0.4, 0.5, 0.45, 0.6], 'path_nonlinear_prob': 0.5,
+        params = {'method': 'paths', 'batch_cells': size * expand,
+                  'out_prob': 0,
+                  'path_length': 500,
+                  'path_from': [0, 1, 1, 2, 0, 0],
+                  'de_fac_loc': 1, 'path_nonlinear_prob':0.5,
+                  'group_prob': [0.15, 0.05, .1, .25, .2, .25],
+                  'dropout_type': 'binomial', 'dropout_prob': 0,
+                  'path_skew': [0.5, 0.55, 0.4, 0.5, 0.45, 0.6],
+                  'group_prob': [0.15, 0.05, .1, .25, .2, .25],
                   'seed': self.seed, 'verbose': False}
         sim = scprep.run.SplatSimulate(**params)
         data = sim['counts']
@@ -124,6 +149,7 @@ class tree(Dataset):
 class digits(Dataset):
 
     def build(self, digit=7):
+        self.name = 'Digits'
         digits = sklearn.datasets.load_digits()
         self.X = digits['data']
         if digit is not None:
@@ -137,6 +163,8 @@ class digits(Dataset):
 class sensor(Dataset):
 
     def build(self, size=100):
+        self.name = 'Sensor network'
+
         G = pygsp.graphs.DavidSensorNet(N=size)
         self.X = G.W.tocsr()
         self.is_graph = True
@@ -146,6 +174,7 @@ class sensor(Dataset):
 class sbm(Dataset):
 
     def build(self, n=3, p=0.3, q=0.05, size=100, truth_weight=0.15):
+        self.name = 'Stochastic block model'
         G = pygsp.graphs.StochasticBlockModel(
             N=size, k=n, p=p, q=q, seed=self.seed)
         self.X = G.W.tocsr()
@@ -165,6 +194,8 @@ class sbm(Dataset):
 class BarabasiAlbert(Dataset):
 
     def build(self, size=200):
+        self.name = 'Barabasi Albert'
+
         G = pygsp.graphs.BarabasiAlbert(size)
         self.X = G.W.tocsr()
         self.c = G.dw
@@ -174,6 +205,7 @@ class BarabasiAlbert(Dataset):
 class frey(Dataset):
 
     def build(self, size=200):
+        self.name = 'Frey faces'
         url = 'http://www.cs.nyu.edu/~roweis/data/frey_rawface.mat'
         filename = 'data/frey_rawface.mat'
         utils.download_file(url, filename)
