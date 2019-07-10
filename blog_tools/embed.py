@@ -52,7 +52,7 @@ class Isomap_(sklearn.manifold.Isomap):
         self.embedding_ = self.kernel_pca_.fit_transform(G)
 
 
-def PHATE(X, is_graph=False, *args, knn_dist='euclidean', verbose=0, **kwargs):
+def PHATE(X, *args, is_graph=False, knn_dist='euclidean', verbose=0, **kwargs):
     if knn_dist is None:
         if is_graph:
             knn_dist = 'precomputed'
@@ -60,11 +60,11 @@ def PHATE(X, is_graph=False, *args, knn_dist='euclidean', verbose=0, **kwargs):
                        **kwargs).fit_transform(X)
 
 
-def UMAP(X, is_graph=False, *args, **kwargs):
+def UMAP(X, *args, is_graph=False, **kwargs):
     return umap.UMAP(*args, **kwargs).fit_transform(X)
 
 
-def MDS(X, is_graph=False, *args, dissimilarity='euclidean', **kwargs):
+def MDS(X, *args, is_graph=False, dissimilarity='euclidean', **kwargs):
     if is_graph:
         X = utils.geodesic_distance(X)
         dissimilarity = 'precomputed'
@@ -72,25 +72,26 @@ def MDS(X, is_graph=False, *args, dissimilarity='euclidean', **kwargs):
                                 **kwargs).fit_transform(X)
 
 
-def TSNE(X, is_graph=False, *args, metric='euclidean', **kwargs):
+def TSNE(X, *args, is_graph=False, metric='euclidean', **kwargs):
     if is_graph:
         X = utils.geodesic_distance(X)
         metric = 'precomputed'
     return sklearn.manifold.TSNE(*args, metric=metric, **kwargs).fit_transform(X)
 
 
-def ISOMAP(X, is_graph=False, *args, **kwargs):
+def ISOMAP(X, *args, is_graph=False, random_state=None, **kwargs):
+    np.random.seed(random_state)
     if is_graph:
         X = utils.geodesic_distance(X)
     return Isomap_(*args, precomputed=is_graph, **kwargs).fit_transform(X)
 
 
-def PCA(X, is_graph=False, *args, **kwargs):
+def PCA(X, *args, is_graph=False, **kwargs):
     X = scprep.utils.toarray(X)
     return sklearn.decomposition.PCA(*args, **kwargs).fit_transform(X)
 
 
-def Spring(X, is_graph=False, *args, **kwargs):
+def Spring(X, *args, is_graph=False, **kwargs):
     if not is_graph:
         G = graphtools.Graph(X, knn=3, decay=None, use_pygsp=True)
     else:
