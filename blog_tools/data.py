@@ -1,10 +1,13 @@
 import numpy as np
+import imageio
 import scipy.io
 import pygsp
 import sklearn.datasets
 import abc
+import h5py
 import scprep
 import graphtools
+import pandas as pd
 
 from . import utils, embed
 
@@ -273,6 +276,80 @@ class frey(ImageDataset):
         self.X = self.X / 255
         self.c = np.arange(self.X_true.shape[0])
 
+class COIL20(ImageDataset):
+    
+    def build(self):
+        N = 20
+        M = 72
+        imsize = 128 * 128
+        X = np.zeros((N * M, imsize))
+        counter = 0
+        for i in range(N):
+            for j in range(M):
+                X[counter, :] = imageio.imread(
+                    '/data/lab/DataSets/COIL20/img/obj%d__%d.png' % (i + 1, j)).flatten()
+                counter += 1
+        labels = np.repeat(np.arange(1, N+1), M)
+        time = np.tile(np.arange(M), N)
+        self.X = X
+        self.c = labels
+        self.t = time
+        self.X_true = self.X.reshape(-1, 128, 128)
+        self.name = "COIL20"
+
+class retina(Dataset):
+    
+    def build(self):
+        clusters = pd.read_csv("/data/scottgigante/datasets/shekhar_retinal_bipolar/retina_clusters.tsv",
+                               sep="\t", index_col=0)
+        cells = pd.read_csv(
+            "/data/scottgigante/datasets/shekhar_retinal_bipolar/retina_cells.csv",
+            header=None,
+            index_col=False).values.reshape(-1)[:-1]
+        with h5py.File("/data/scottgigante/datasets/shekhar_retinal_bipolar/retina_data.mat", 'r') as f:
+            data = pd.DataFrame(
+                np.array(f['data']).T,
+                index=cells)
+        merged_data = pd.merge(data, clusters, how='left',
+                               left_index=True, right_index=True)
+        merged_data = merged_data.loc[~np.isnan(merged_data['CLUSTER'])]
+        data = merged_data[merged_data.columns[:-2]]
+        data = scprep.filter.filter_rare_genes(data)
+        data = scprep.normalize.library_size_normalize(data)
+        data = np.sqrt(data)
+        clusters, labels = pd.factorize(
+            merged_data[merged_data.columns[-1]])
+        # labels = ['11', '23', '5', '4', '1', '3', '10', '6', '16_1', '2', '13', '14', '7',
+        #   '12', '15_1', '9', '18', '17', '8', '15_2', '24', '21', '19', '16_2',
+        #   '20', '22', '25', '26']
+        cluster_assign = {
+            '1': 'Rod BC',
+            '2': 'Muller Glia',
+            '7': 'BC1A',
+            '9': 'BC1B',
+            '10': 'BC2',
+            '12': 'BC3A',
+            '8': 'BC3B',
+            '14': 'BC4',
+            '3':  'BC5A',
+            '13': 'BC5B',
+            '6': 'BC5C',
+            '11': 'BC5D',
+            '5': 'BC6',
+            '4': 'BC7',
+            '15_1': 'BC8/9_1',
+            '15_2': 'BC8/9_2',
+            '16_1':  'Amacrine_1',
+            '16_2':  'Amacrine_2',
+            '20': 'Rod PR',
+            '22': 'Cone PR',
+        }
+        labels = np.array(labels)
+        for label, celltype in cluster_assign.items():
+            labels = np.where(labels == label, celltype, labels)
+        self.X = data
+        self.c = labels[clusters]
+        self.name = "Retinal Bipolar"
 
 __all__ = [swissroll, three_blobs, uneven_circle,
            digits, frey, tree]
