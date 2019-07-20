@@ -12,7 +12,7 @@ install_requires = [
     'scprep',
     'graphtools',
     'phate',
-    'umap',
+    'umap-learn',
     'networkx',
     'ipywidgets',
     'plotly==3.10.0',
@@ -23,6 +23,8 @@ extras_requires = [
     'rpy2>=3.0',
 ]
 
+package_name = "blog_tools"
+
 if sys.version_info[:2] < (3, 5):
     raise RuntimeError("Python version >=3.5 required.")
 elif sys.version_info[:2] < (3, 6):
@@ -31,16 +33,16 @@ else:
     install_requires += ['matplotlib>=3.0']
 
 version_py = os.path.join(os.path.dirname(
-    __file__), 'scprep', 'version.py')
+    __file__), package_name, 'version.py')
 version = open(version_py).read().strip().split(
     '=')[-1].replace('"', '').strip()
 
 readme = open('README.md').read()
 
-setup(name='blog_tools',
+setup(name=package_name,
       version=version,
-      description='blog_tools',
-      author='Scott Gigante, and Daniel Burkhardt, Krishnaswamy Lab, Yale University',
+      description=package_name,
+      author='Scott Gigante and Daniel Burkhardt, Krishnaswamy Lab, Yale University',
       author_email='krishnaswamylab@gmail.com',
       packages=find_packages(),
       license='GNU General Public License Version 2',
