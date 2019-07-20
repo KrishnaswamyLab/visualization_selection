@@ -35,7 +35,7 @@ version_py = os.path.join(os.path.dirname(
 version = open(version_py).read().strip().split(
     '=')[-1].replace('"', '').strip()
 
-readme = open('README.rst').read()
+readme = open('README.md').read()
 
 setup(name='blog_tools',
       version=version,
