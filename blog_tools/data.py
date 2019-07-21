@@ -165,14 +165,22 @@ class tree(Dataset):
 
     def build(self, size=500):
         self.name = 'Tree'
-        params = {'method': 'paths', 'batch_cells': size,
-                  'path_length': 500,
-                  'path_from': [0, 1, 1, 2, 0, 0],
-                  'de_fac_loc': 1, 'path_nonlinear_prob': 0.5,
-                  'dropout_type': 'binomial', 'dropout_prob': 0.5,
-                  'path_skew': [0.5, 0.75, 0.25, 0.5, 0.25, 0.75],
-                  'group_prob': [0.15, 0.05, .1, .25, .2, .25],
-                  'seed': self.seed, 'verbose': False}
+        #params = {'method': 'paths', 'batch_cells': size,
+        #          'path_length': 500,
+        #          'path_from': [0, 1, 1, 2, 0, 0],
+        #          'de_fac_loc': 1, 'path_nonlinear_prob': 0.5,
+        #          'dropout_type': 'binomial', 'dropout_prob': 0.5,
+        #          'path_skew': [0.5, 0.75, 0.25, 0.5, 0.25, 0.75],
+        #          'group_prob': [0.15, 0.05, .1, .25, .2, .25],
+        #          'seed': self.seed, 'verbose': False}
+        params = {'method': 'paths', 'batch_cells': 500,
+          'path_length': 500,
+          'path_from': [0, 1, 1, 2, 0, 0, 2],
+          'de_fac_loc': 1,
+          'path_skew': [0.45, 0.7, 0.7, 0.45, 0.65, 0.5, 0.5],
+          'group_prob': [0.1, 0.1, .1, .2, .2, .2,.1],
+          'dropout_type': 'binomial', 'dropout_prob': 0.5,
+          'seed': self.seed, 'verbose': False}
         sim = scprep.run.SplatSimulate(**params)
         data = sim['counts']
         data_ln = scprep.normalize.library_size_normalize(data)
