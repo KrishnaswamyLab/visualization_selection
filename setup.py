@@ -5,7 +5,7 @@ from setuptools import setup, find_packages
 install_requires = [
     'numpy>=1.10.0',
     'scipy>=0.18.0',
-    'scikit-learn>=0.19.1',
+    'scikit-learn>=0.20.0',
     'pandas>=0.19.0,<0.24',
     'imageio',
     'pygsp',
@@ -16,6 +16,7 @@ install_requires = [
     'networkx',
     'ipywidgets',
     'plotly==3.10.0',
+    'numba==0.37',
 ]
 
 extras_requires = [

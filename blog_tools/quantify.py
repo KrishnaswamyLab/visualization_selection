@@ -1,6 +1,8 @@
 import graphtools
 from scipy.spatial.distance import pdist, squareform
 from scipy.stats import spearmanr
+import numpy as np
+from sklearn import neighbors
 
 
 def DEMaP(data, embedding, knn=30, subsample_idx=None):
@@ -23,11 +25,12 @@ def shared_neighbors_curve(data, embedding, knn=200, n_jobs=20):
     knn_op = neighbors.NearestNeighbors(knn, n_jobs=n_jobs)
     knn_embedding = knn_op.fit(embedding).kneighbors(embedding, return_distance=False)
     knn_data = knn_op.fit(data).kneighbors(data, return_distance=False)
-    return [np.mean(np.isin(knn_embedding[:, :i], knn_data[:, :i]))
-            for i in range(1, knn)]
+    return [[np.mean(np.isin(knn_embedding[j, 1:i], knn_data[j, 1:i]))
+        for j in range(knn_data.shape[0])]
+            for i in range(2, knn)]
 
 def shared_neighbors(data, embedding, knn=200, n_jobs=20):
     knn_op = neighbors.NearestNeighbors(knn, n_jobs=n_jobs)
     knn_embedding = knn_op.fit(embedding).kneighbors(embedding, return_distance=False)
     knn_data = knn_op.fit(data).kneighbors(data, return_distance=False)
-    return np.mean(np.isin(knn_embedding, knn_data))
+    return np.mean([np.isin(knn_embedding[i,1:], knn_data[i,1:]) for i in range(knn_data.shape[0])])

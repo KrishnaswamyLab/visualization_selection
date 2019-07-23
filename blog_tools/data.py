@@ -176,7 +176,7 @@ class tree(Dataset):
         #          'path_skew': [0.5, 0.75, 0.25, 0.5, 0.25, 0.75],
         #          'group_prob': [0.15, 0.05, .1, .25, .2, .25],
         #          'seed': self.seed, 'verbose': False}
-        params = {'method': 'paths', 'batch_cells': 500,
+        params = {'method': 'paths', 'batch_cells': size,
           'path_length': 500,
           'path_from': [0, 1, 1, 2, 0, 0, 2],
           'de_fac_loc': 1,
@@ -210,6 +210,47 @@ class tree(Dataset):
         data_sqrt = scprep.transform.sqrt(data_ln)
         G = graphtools.Graph(data_sqrt, n_pca=100, anisotropy=1)
         self.X_true = embed.PHATE(G, gamma=0)[::expand]
+
+        
+
+class trajectory(Dataset):
+
+    def build(self, size=10000, **kwargs):
+        self.name = 'Tree'
+        params = {'method': 'paths', 'batch_cells': size,
+          'path_from': [0, 1, 1, 2, 0, 0, 2, 5,5, 7,7],
+          'path_skew': [0.45, 0.55, 0.55, 0.45, 0.55, 0.5, 0.5, 0.45,0.55,0.55,0.5],
+          'group_prob': [0.1, 0.1, .1, .15, .05, .1,.1,0.05,0.1,0.1,0.05],
+          'dropout_type': 'binomial', 'dropout_prob': 0.5,
+          'bcv_common' : 0.18,
+          'n_genes':17580, 
+          'mean_shape':6.6, 
+          'mean_rate':0.45, 
+          'lib_loc':9.1, 
+          'lib_scale':0.33,
+          'out_prob':0.016, 
+          'out_fac_loc':5.4, 
+          'out_fac_scale':0.90,
+          'bcv_df':21.6, 
+          'de_prob':0.2,
+          'seed': self.seed, 'verbose': False}
+        params.update(kwargs)
+        sim = scprep.run.SplatSimulate(**params)
+        data = sim['counts']
+        data_ln = scprep.normalize.library_size_normalize(data)
+        data_sqrt = scprep.transform.sqrt(data_ln)
+        data_pca = scprep.reduce.pca(data_sqrt, 100)
+        self.X = data_pca
+        self.c = sim['group']
+        params['out_prob'] = 0
+        params['dropout_prob'] = 0
+        params['bcv_common'] = 0
+        sim = scprep.run.SplatSimulate(**params)
+        data = sim['counts']
+        data_ln = scprep.normalize.library_size_normalize(data)
+        data_sqrt = scprep.transform.sqrt(data_ln)
+        data_pca = scprep.reduce.pca(data_sqrt, 100)
+        self.X_true = data_pca
 
 
 class sensor(GraphDataset):
