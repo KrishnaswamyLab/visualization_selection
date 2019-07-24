@@ -16,7 +16,8 @@ install_requires = [
     'networkx',
     'ipywidgets',
     'plotly==3.10.0',
-    'numba==0.37',
+    'numba',
+    'markdown',
 ]
 
 extras_requires = [

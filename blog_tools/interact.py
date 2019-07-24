@@ -5,6 +5,8 @@ import plotly.plotly as py
 import plotly.graph_objs as go
 import ipywidgets as widgets
 from IPython.display import display
+import markdown
+import scprep
 
 
 class TabWidget(object):
@@ -25,6 +27,34 @@ class TabWidget(object):
         for i, title in enumerate(self.titles):
             self.widget.set_title(i, title)
         return display(self.widget)
+
+def plot_embedding(dataset, algorithm, ax):
+    Y = algorithm(dataset.X, is_graph=dataset.is_graph)
+    ax = scprep.plot.scatter2d(Y, c=dataset.c, ticks=False, label_prefix=algorithm.__name__, 
+                          ax=ax, title=dataset.name, legend=False, fontsize=14)
+    # fix limits if extremely imbalanced
+    xmin, xmax = ax.get_xlim()
+    ymin, ymax = ax.get_ylim()
+    xspan = (xmax - xmin) / 2
+    xmid = xmin + xspan
+    yspan = (ymax - ymin) / 2
+    ymid = ymin + yspan
+    if xspan > 2 * yspan:
+        ax.set_ylim(ymid - xspan, ymid + xspan)
+    if yspan > 2 * xspan:
+        ax.set_xlim(xmid - yspan, xmid + yspan)
+
+def display_markdown(path, placeholder='', style_file="style.css"):
+    with open(path) as file:
+        html = markdown.markdown(file.read())
+    with open(style_file) as file:
+        style = file.read()
+    html = '\n'.join([style, html])
+    display(widgets.HTMLMath(
+            value=html,
+            placeholder=placeholder,
+            description='',
+        ))
 
 
 def autorange(fig, scatter):

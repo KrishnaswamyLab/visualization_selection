@@ -1,0 +1,13 @@
+<style>
+p {
+    line-height: 1.4; 
+    margin-bottom: 10pt;
+}
+.MathJax_display {
+    text-align: "center";
+}
+math, .MathJax {
+    color: black;
+    text-align: "center";
+}
+</style>
