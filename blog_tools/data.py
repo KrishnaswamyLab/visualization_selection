@@ -211,29 +211,46 @@ class tree(Dataset):
         G = graphtools.Graph(data_sqrt, n_pca=100, anisotropy=1)
         self.X_true = embed.PHATE(G, gamma=0)[::expand]
 
+
+def _sum_to_one(x):
+    x = x / np.sum(x)  # fix numerical error
+    x = x.round(3)
+    if np.sum(x) != 1:
+        x[0] += 1 - np.sum(x)
+    x = x.round(3)
+    return x
         
 
 class trajectory(Dataset):
 
-    def build(self, size=10000, **kwargs):
+    def build(self, size=10000, method='paths', dropout=0.5, bcv=0.18, 
+              # hyperparameters
+              group_prob_rate=10, 
+              group_prob_concentration=1,
+              path_skew_shape=10,
+              **kwargs):
         self.name = 'Tree'
-        params = {'method': 'paths', 'batch_cells': size,
-          'path_from': [0, 1, 1, 2, 0, 0, 2, 5,5, 7,7],
-          'path_skew': [0.45, 0.55, 0.55, 0.45, 0.55, 0.5, 0.5, 0.45,0.55,0.55,0.5],
-          'group_prob': [0.1, 0.1, .1, .15, .05, .1,.1,0.05,0.1,0.1,0.05],
-          'dropout_type': 'binomial', 'dropout_prob': 0.5,
-          'bcv_common' : 0.18,
-          'n_genes':17580, 
-          'mean_shape':6.6, 
-          'mean_rate':0.45, 
-          'lib_loc':9.1, 
-          'lib_scale':0.33,
-          'out_prob':0.016, 
-          'out_fac_loc':5.4, 
-          'out_fac_scale':0.90,
-          'bcv_df':21.6, 
-          'de_prob':0.2,
-          'seed': self.seed, 'verbose': False}
+        params = dict(method=method, seed=self.seed,
+            batch_cells=size,
+            n_genes=17580,
+            mean_shape=6.6, mean_rate=0.45,
+            lib_loc=8.4 + np.log(2), lib_scale=0.33,
+            out_prob=0.016, out_fac_loc=5.4, out_fac_scale=0.90,
+            bcv_common=bcv, bcv_df=21.6,
+            de_prob=0.2,
+            dropout_type="binomial", dropout_prob=dropout,
+                     verbose=False)
+        np.random.seed(self.seed)
+        n_groups = np.random.poisson(group_prob_rate)
+        group_prob = np.random.dirichlet(
+            np.ones(n_groups) * group_prob_concentration).round(3)
+        params['group_prob'] = _sum_to_one(group_prob)
+        if method == 'paths':
+            params['path_nonlinear_prob'] = np.random.uniform(0, 1)
+            params['path_skew'] = np.random.beta(path_skew_shape, path_skew_shape, n_groups)
+            params['path_from'] = [0]
+            for i in range(1, n_groups):
+                params['path_from'].append(np.random.randint(i))
         params.update(kwargs)
         sim = scprep.run.SplatSimulate(**params)
         data = sim['counts']
@@ -242,7 +259,7 @@ class trajectory(Dataset):
         data_pca = scprep.reduce.pca(data_sqrt, 100)
         self.X = data_pca
         self.c = sim['group']
-        params['out_prob'] = 0
+        # params['out_prob'] = 0
         params['dropout_prob'] = 0
         params['bcv_common'] = 0
         sim = scprep.run.SplatSimulate(**params)
