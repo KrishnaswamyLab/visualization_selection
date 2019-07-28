@@ -4,8 +4,8 @@ import scipy.io
 import pygsp
 import sklearn.datasets
 import abc
-import h5py
 import scprep
+import scprep.io.hdf5 as h5
 import graphtools
 import pandas as pd
 
@@ -372,9 +372,10 @@ class retina(Dataset):
             "/data/scottgigante/datasets/shekhar_retinal_bipolar/retina_cells.csv",
             header=None,
             index_col=False).values.reshape(-1)[:-1]
-        with h5py.File("/data/scottgigante/datasets/shekhar_retinal_bipolar/retina_data.mat", 'r') as f:
+        with h5.open_file("/data/scottgigante/datasets/shekhar_retinal_bipolar/retina_data.mat", 
+                          'r', backend='h5py') as f:
             data = pd.DataFrame(
-                np.array(f['data']).T,
+                np.array(h5.get_node(f, 'data')).T,
                 index=cells)
         merged_data = pd.merge(data, clusters, how='left',
                                left_index=True, right_index=True)
