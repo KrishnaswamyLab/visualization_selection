@@ -12,7 +12,6 @@ One of the major drawbacks of PCA is that dimensions used for visualization can 
 
 ![PCA on toy data](img/toy_data.PCA.png)
 
-
 First, let's consider the **swiss roll**. Notice how the latent dimension -- the distance from the center of the spiral -- is not well represented by these first two dimensions? This is because the noise dimension is wider than the swiss roll is tall. This brings us to our first important insight about PCA. Because PCA finds linear combinations of the data features with maximal variance, if the dimension of largest variance is noise, then PCA will show the noise.
 
 Furthermore, remember that our goal with the swiss roll was to "unroll" the data and show the data lying on a single line or a 2d plane. Because the data is non-linear, there's no way for PCA to perform this unfurling. We'll get back to this later when we look at datasets that can unroll the roll, but for now, remember that PCA can hide non-linear relationships between the data.

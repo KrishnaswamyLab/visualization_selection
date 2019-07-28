@@ -12,7 +12,6 @@ Here, $X$ is the data in high dimensional space and $x$ is the distance in low d
 
 ![MDS on toy data](img/toy_data.MDS.png)
 
-
 **Swiss roll** - MDS performs similarly to PCA in embedding the Swiss roll because it preserves all pairwise distances. Although MDS is non-linear, the cost function is linear across distance scales, so it will never "unroll" the swiss roll. That behavior would require the ability to understand that it doesn't matter how close the center and outside of the swiss roll are placed in the low-dimensional space.
 
 **Three blobs** - Again, for similar reasons that PCA performs well here, MDS does a good job of embedding the three clusters. The ratio of blue:orange and blue:green blobs is preserved, and the blobs look like blobs.

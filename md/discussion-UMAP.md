@@ -12,7 +12,6 @@ Let's see how UMAP performs.
 
 ![UMAP on toy data](img/toy_data.UMAP.png)
 
-
 **Swiss roll** - Here we observe that UMAP does a fair job of unrolling the swiss roll. Two issues with this embedding are that one part of the roll that is broken apart and another that is split off from the main group of points. Overall, this looks far better than t-SNE or PCA.
 
 **Three blobs** - Because UMAP shares such conceptual similarity with t-SNE, it's not surprised that it performs similarly on these blobs. The exact ratio spacing between the blue:orange and blue:green clusters is lost, and the orangle blob, which should be on the outside of the plot, is instead place in between them. 
