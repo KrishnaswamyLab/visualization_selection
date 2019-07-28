@@ -12,7 +12,6 @@ To solve this problem of capturing global structure in 2 or 3 dimensions, PHATE 
 
 ![PHATE on toy data](img/toy_data.PHATE.png)
 
-
 **Swiss roll** - The PHATE visualization of the swiss roll looks almost as good as the one produced by ISOMAP. Here we observe that the data is indeed a sheet, but in preserving some of these global potential distances in 2 dimensions, we see that the roll is not completely flattened.
 
 **Three blobs** - PHATE on the three blobs perserves the cluster-like nature of the data and projects each cluster onto a single axis of variation within each cluster. The green blob's axis would likely be seen in visualizing in 3 dimensions. Unfortunately, the relative positions of the blue:orange and blue:green blob is close and this visualization makes it seem that the blue and orange blob are equidistant to the green. This is likely due to the graph being sparsely connected between the blue and orange blob but largely disconnected from the green blob.

@@ -10,7 +10,6 @@ A simple approach to building a graph given is a set of data points is to connec
 
 ![ISOMAP on toy data](img/toy_data.ISOMAP.png)
 
-
 **Swiss roll** - As expected, ISOMAP works very well on the swiss roll. Becuase distances are taken along the data manifold, the swiss roll is effectively unrolled and we can easily identify the two meaningful axes through the data.
 
 **Three blobs** - One of the issues with ISOMAP can be easily observed when the data exists as more than one manifold. The issue here is that the distances between the clusters is essentially undefined. The default graph learned by ISOMAP here obviously failed to connect the three blobs, so the algorithm doesn't preserve the undefined distances between them. Each of the first three eigenvectors of the dissimilarity matrix will represent the lowest frequency axis through each individual cluster. These low-frequency eigenvectors are the lines that thepoints from each blob have been projected on. If we were to look at three dimensions, we would see that the orange blob would be represented as a line orthogonal to the blue and green.

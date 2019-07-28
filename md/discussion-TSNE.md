@@ -8,8 +8,7 @@ There are a couple of key points to consider with t-SNE. First, the embedding is
 
 #### t-SNE on toy data cases
 
-![TSNE on toy data](img/toy_data.TSNE.png)
-
+![t-SNE on toy data](img/toy_data.TSNE.png)
 
 **Swiss roll** - Here, t-SNE does terribly. This poor performance has been noted before ([see this comparison of SNE methods on the swiss roll](https://jlmelville.github.io/smallvis/swisssne.html)), and is even addressed on [the t-SNE FAQ](https://lvdmaaten.github.io/tsne/#faq). Laurens van der Maaten's rationale for this is that the swiss roll has low instrinsic dimensionality and so does not suffer from the so-called "crowding problem" discussed in the [original paper](www.jmlr.org/papers/volume9/vandermaaten08a/vandermaaten08a.pdf).  He also writes, "who cares about Swiss rolls when you can embed complex real-world data nicely?" However, we note that it is difficult to define "nicely" for real-world data.
 
