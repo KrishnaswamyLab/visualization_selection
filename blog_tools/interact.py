@@ -266,3 +266,21 @@ def image_plot(dataset, algorithms, s=7):
                        widgets.HBox([figs[3], figs[4], figs[5]])]),
                  image_widget])
     display(dash)
+
+def color_plot(path, name, options, default=None):
+    pngs = {}
+    for option in options:
+        with open(path.format(option), 'rb') as handle:
+            pngs[option] = handle.read()
+
+    def change_image(**kwargs):
+        image_widget.value = pngs[kwargs[name]]
+
+    image_widget = widgets.Image()
+    dropdown = widgets.Dropdown(options=options)
+    widgets.interactive(change_image, **{name:dropdown})
+    dash = widgets.VBox([dropdown, image_widget])
+    if default is None:
+        default = options[0]
+    change_image(**{name:default})
+    display(dash)
