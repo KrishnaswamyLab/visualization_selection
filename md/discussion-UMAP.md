@@ -18,5 +18,4 @@ Let's see how UMAP performs.
 
 **Uneven circle** - Here, UMAP fails to embed the circle properly and breaks it into a single lines additionally, the uneven spacing between points is lost.
 
-
 **Tree** - Although UMAP aims to perserve local and global distances, you can see that the algorithm suffers from the same difficulties as t-SNE. Because the algorithm tries to preserve local distances over global distances, the algorithm has a tendency to shatter a tree at the branching points.

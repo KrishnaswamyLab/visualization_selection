@@ -18,4 +18,4 @@ To solve this problem of capturing global structure in 2 or 3 dimensions, PHATE 
 
 **Uneven circle** - PHATE acturately embeds the circle in two dimensions and preserves the uneven spacing of the points aroung the circle.
 
-**Tree** - PHATE accurately captures the structure of the tree in two dimensions.
+**Tree** - PHATE accurately captures the structure of the tree in two dimensions and entirely denoising the branches to thin lines.

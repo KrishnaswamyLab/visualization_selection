@@ -418,5 +418,4 @@ class retina(Dataset):
         self.c = labels[clusters]
         self.name = "Retinal Bipolar"
 
-__all__ = [swissroll, three_blobs, uneven_circle,
-           digits, frey, tree]
+__all__ = [swissroll, three_blobs, uneven_circle, tree]
