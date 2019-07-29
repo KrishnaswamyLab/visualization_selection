@@ -7,6 +7,8 @@ import ipywidgets as widgets
 from IPython.display import display
 import markdown
 import scprep
+import PIL.Image
+import io
 
 
 class TabWidget(object):
@@ -80,7 +82,7 @@ def slider(values, name, default=None):
     )
 
 
-def plotly(data, label=None, c=None, contour=True):
+def plotly(data, label=None, c=None, contour=True, s=10, width=500, height=500):
     axis_layout = dict(
         autorange=False,
         showgrid=False,
@@ -89,7 +91,7 @@ def plotly(data, label=None, c=None, contour=True):
         ticks='',
         showticklabels=False
     )
-    size = np.repeat(10, data.shape[0])
+    size = np.repeat(s, data.shape[0])
     fig_data = dict(
         type='scattergl',
         x=data[:, 0],
@@ -125,8 +127,8 @@ def plotly(data, label=None, c=None, contour=True):
             xaxis=axis_layout,
             yaxis=axis_layout,
             autosize=False,
-            width=500,
-            height=500,
+            width=width,
+            height=height,
         )
     )
     fig.layout.titlefont.size
@@ -171,6 +173,14 @@ def to_hex(c, data):
         c = plt.cm.inferno(c)
         c = np.array([mpl.colors.to_hex(color) for color in c])
     return c
+
+
+def image_to_bytes(im, mode="L", size=(300, 300)):
+    im = PIL.Image.fromarray(im, mode="L").resize(size)
+    imgByteArr = io.BytesIO()
+    im.save(imgByteArr, format='PNG')
+    imgByteArr = imgByteArr.getvalue()
+    return imgByteArr
 
 
 def parameter_plot(algorithm, results, truth, c=None):
@@ -218,4 +228,41 @@ def parameter_plot(algorithm, results, truth, c=None):
 
     dash = widgets.HBox([widgets.VBox([fig_true, params_slider]),
                          fig])
+    display(dash)
+
+def image_plot(dataset, algorithms, s=7):
+    embeddings = [algorithm(dataset.X) for algorithm in algorithms]
+    c = to_hex(dataset.c, embeddings[0])
+    figs, scatters = zip(*[plotly(
+        embedding, c=c, label=algorithm.__name__, 
+        contour=False, width=300, height=300, s=s) 
+                           for embedding, algorithm in zip(embeddings, algorithms)])
+    s = np.repeat(s, len(c))
+    
+    image_widget = widgets.Image(
+        value=image_to_bytes(255 - dataset.X_true[0]),
+        layout=widgets.Layout(height='280px', width='200px', margin='160px 0px 160px 0px')
+    )
+    
+    def hover_fn(trace, points, state):
+        ind = points.point_inds[0]
+        image_widget.value = image_to_bytes(255 - dataset.X_true[ind])
+
+    def click_fn(trace, points, state):
+        ind = points.point_inds[0]
+        size = s.copy()
+        color = c.copy()
+        color[ind] = '#FF0000'
+        size[ind] = 20
+        for scatter in scatters:
+            scatter.marker.size = size
+            scatter.marker.color = color
+
+    for scatter in scatters:
+        scatter.on_hover(hover_fn)
+        scatter.on_click(click_fn)
+        
+    dash = widgets.HBox([widgets.VBox([widgets.HBox([figs[0], figs[1], figs[2]]),
+                       widgets.HBox([figs[3], figs[4], figs[5]])]),
+                 image_widget])
     display(dash)

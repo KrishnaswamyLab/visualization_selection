@@ -340,7 +340,7 @@ class frey(ImageDataset):
                 0, self.X_true.shape[0] - 1, size).astype(int)]
         self.X = self.X_true.reshape((self.X_true.shape[0], -1))
         self.X = self.X / 255
-        self.c = np.arange(self.X_true.shape[0])
+        self.c = np.arange(self.X_true.shape[0]).astype(float)
 
 class COIL20(ImageDataset):
     
