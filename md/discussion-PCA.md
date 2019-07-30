@@ -20,8 +20,4 @@ Second, we look at the **three blobs** dataset. Here, PCA did a good job of capt
 
 In the case of the **uneven circle**, we see that the data structure is more or less reasonably represented due to the same reasons as in the three blobs case. However, notice that the uneven spacing of the data is lost.
 
-For the **digits**....
-
-With the **frey faces**....
-
 Examining the **tree** dataset, we can see that PCA failed to show the six branches in two dimensions and depicts many branches overlapping. If we were to be looking only at the data without the color added, you might guess that there are only two branches in this data. This squashing of branches is because the underlying data structure does not exist as two linear combinations of the data features. Different features change between branches, so one would need one principal component per branch to represent this data. Furthermore, the non-linearity of the changes in the features of each branch causes PCA to make some branches appear curves. Although this is true with respect to the feature space, this is unfaithful to the latent data generative space. As with the Swiss Roll, PCA has no way of "unfurling" the data.
