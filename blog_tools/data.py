@@ -418,4 +418,97 @@ class retina(Dataset):
         self.c = labels[clusters]
         self.name = "Retinal Bipolar"
 
+
+class Splatter(Dataset):
+    N_CELLS = 10000
+    N_GENES = 17580
+    DROPOUT = 0.5
+    BCV = 0.18
+    
+    def build(self, dropout=None, bcv=None, method="paths", 
+                    n_cells=None,
+                    n_genes=None,
+                 name='Splatter',
+                    **kwargs):
+        if n_cells is None:
+            n_cells = self.N_CELLS
+        if n_genes is None:
+            n_genes = self.N_GENES
+        if bcv is None:
+            bcv = self.BCV
+        if dropout is None:
+            dropout = self.DROPOUT
+        if 'group_prob' in kwargs:
+            kwargs['group_prob'] = self._sum_to_one(kwargs['group_prob'])
+        params = dict(method=method, seed=self.seed,
+            batch_cells=n_cells,
+            n_genes=self.N_GENES,
+            mean_shape=6.6, mean_rate=0.45,
+            lib_loc=8.4 + np.log(2), lib_scale=0.33,
+            out_prob=0.016, out_fac_loc=5.4, out_fac_scale=0.90,
+            bcv_common=bcv, bcv_df=21.6,
+            de_prob=0.2,
+            dropout_type="binomial", dropout_prob=dropout,
+            **kwargs)
+        np.random.seed(self.seed)
+        sim = scprep.run.SplatSimulate(**params)
+        data = sim['counts']
+        if n_genes < data.shape[1]:
+            data = data[:, np.random.choice(data.shape[1], n_genes, replace=False)]
+        self.X = self.preprocess(data)
+        self.c = sim['group']
+        params['dropout_prob'] = 0
+        params['bcv_common'] = 0
+        np.random.seed(self.seed)
+        sim_true = scprep.run.SplatSimulate(**params)
+        self.X_true = self.preprocess(sim_true['counts'])
+        self.name = name
+
+    def _sum_to_one(self, x, n_decimal=5):
+        x = x / np.sum(x)
+        x = np.round(x, n_decimal)
+        x[0] += np.round(1 - np.sum(x), n_decimal)
+        return x
+
+    def preprocess(self, data):
+        data = scprep.normalize.library_size_normalize(data)
+        data = scprep.transform.sqrt(data)
+        data = scprep.reduce.pca(data, n_components=100)
+        return data
+
+
+
+class Paths(Splatter):
+    def build(self, 
+              # hyperparameters
+              group_prob_rate=10, group_prob_concentration=1,
+              path_skew_shape=10,
+                **kwargs):
+        np.random.seed(self.seed)
+        n_groups = np.random.poisson(group_prob_rate)
+        group_prob = np.random.dirichlet(
+            np.ones(n_groups) * group_prob_concentration).round(3)
+        path_nonlinear_prob = np.random.uniform(0, 1)
+        path_skew = np.random.beta(path_skew_shape, path_skew_shape, n_groups)
+        path_from = [0]
+        for i in range(1, n_groups):
+            path_from.append(np.random.randint(i))
+        super().build(method="paths", group_prob=group_prob,
+                           path_skew=path_skew,
+                           path_from=path_from,
+                           path_nonlinear_prob=path_nonlinear_prob,
+                           name='paths', **kwargs)
+
+class Groups(Splatter):
+    def build(self, 
+               # hyperparameters
+               group_prob_rate=10, group_prob_concentration=1,
+                **kwargs):
+        np.random.seed(self.seed)
+        n_groups = np.random.poisson(group_prob_rate)
+        group_prob = np.random.dirichlet(
+            np.ones(n_groups) * group_prob_concentration).round(3)
+        super().build(method="groups", group_prob=group_prob,
+                           name='groups', **kwargs)
+
 __all__ = [swissroll, three_blobs, uneven_circle, tree]

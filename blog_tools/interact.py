@@ -1,14 +1,16 @@
 import numpy as np
+import pandas as pd
 import matplotlib as mpl
 import matplotlib.pyplot as plt
 import plotly.plotly as py
 import plotly.graph_objs as go
 import ipywidgets as widgets
-from IPython.display import display
+from IPython.display import display, clear_output
 import markdown
 import scprep
 import PIL.Image
 import io
+import time
 
 
 class TabWidget(object):
@@ -283,4 +285,39 @@ def color_plot(path, name, options, default=None):
     if default is None:
         default = options[0]
     change_image(**{name:default})
+    display(dash)
+    
+def quantification_plot(image_path, data_path, max_seed=50):
+    np.random.seed(int(time.time()))
+    table_widget = widgets.Output()
+    image_widget = widgets.Image()
+    
+    def change_image(seed):
+        with open(image_path.format(seed), 'rb') as handle:
+            png = handle.read()
+        image_widget.value = png
+
+    def change_table(seed):
+        csv = pd.read_csv(data_path.format(seed), index_col=0)
+        csv = csv.set_index('method').T.round(3)
+        csv.index.name=''
+        with table_widget:
+            clear_output()
+            display(csv)
+
+    def randomize(*args, **kwargs):
+        success = False
+        while not success:
+            try:
+                seed = np.random.choice(max_seed)
+                change_image(seed)
+                change_table(seed)
+                success = True
+            except FileNotFoundError:
+                pass
+
+    randomizer = widgets.Button(description='Randomize!', tooltip='Change the random seed for the simulation')
+    randomizer.on_click(randomize)
+    dash = widgets.VBox([randomizer, image_widget, table_widget])
+    randomize()
     display(dash)
