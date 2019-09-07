@@ -310,8 +310,8 @@ def quantification_plot(image_path, data_path, max_seed=50):
         while not success:
             try:
                 seed = np.random.choice(max_seed)
-                change_image(seed)
                 change_table(seed)
+                change_image(seed)
                 success = True
             except FileNotFoundError:
                 pass
