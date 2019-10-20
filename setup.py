@@ -18,6 +18,7 @@ install_requires = [
     'plotly==3.10.0',
     'numba',
     'markdown',
+    'matplotlib>=3.0'
 ]
 
 extras_requires = [
@@ -27,12 +28,8 @@ extras_requires = [
 
 package_name = "blog_tools"
 
-if sys.version_info[:2] < (3, 5):
-    raise RuntimeError("Python version >=3.5 required.")
-elif sys.version_info[:2] < (3, 6):
-    install_requires += ['matplotlib>=3.0,<3.1']
-else:
-    install_requires += ['matplotlib>=3.0']
+if sys.version_info[:2] < (3, 6):
+    raise RuntimeError("Python version >=3.6 required.")
 
 version_py = os.path.join(os.path.dirname(
     __file__), package_name, 'version.py')
@@ -67,8 +64,8 @@ setup(name=package_name,
           'Operating System :: Microsoft :: Windows',
           'Operating System :: POSIX :: Linux',
           'Programming Language :: Python :: 3',
-          'Programming Language :: Python :: 3.5',
           'Programming Language :: Python :: 3.6',
+          'Programming Language :: Python :: 3.7',
           'Topic :: Scientific/Engineering :: Visualization',
       ]
       )
