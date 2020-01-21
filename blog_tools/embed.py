@@ -31,7 +31,6 @@ class Isomap_(sklearn.manifold.Isomap):
                                           algorithm=self.neighbors_algorithm,
                                           n_jobs=self.n_jobs)
             self.nbrs_.fit(X)
-            self.training_data_ = self.nbrs_._fit_X
 
             kng = kneighbors_graph(self.nbrs_, self.n_neighbors,
                                    mode='distance', n_jobs=self.n_jobs)

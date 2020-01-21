@@ -5,8 +5,8 @@ from setuptools import setup, find_packages
 install_requires = [
     'numpy>=1.10.0',
     'scipy>=0.18.0',
-    'scikit-learn>=0.20.0',
-    'pandas>=0.19.0,<0.24',
+    'scikit-learn>=0.22.0',
+    'pandas>=0.25',
     'imageio',
     'pygsp',
     'scprep',
