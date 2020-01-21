@@ -4,6 +4,7 @@ from blog_tools import data, embed
 import pickle
 import numpy as np
 import scipy.spatial
+from joblib import Parallel, delayed
 
 
 dataset = data.swissroll()
@@ -35,7 +36,7 @@ results['PCA'] = {'param_names': ['seed'],
                   'output': {}}
 for seed in random_seed:
     results['PCA']['output'][(seed,)] = scale(
-        algorithm(dataset.X, random_state=seed))
+        algorithm(dataset.X, seed=seed))
 
 # MDS
 algorithm = embed.MDS
@@ -45,7 +46,7 @@ results['MDS'] = {'param_names': ['seed'],
                   'output': {}}
 for seed in random_seed:
     results['MDS']['output'][(seed,)] = scale(
-        algorithm(dataset.X, random_state=seed))
+        algorithm(dataset.X, seed=seed))
 
 # ISOMAP
 algorithm = embed.ISOMAP
@@ -56,7 +57,7 @@ results['ISOMAP'] = {'param_names': ['knn', 'seed'],
 for k in knn:
     for seed in random_seed:
         results['ISOMAP']['output'][(k, seed)] = scale(algorithm(
-            dataset.X, n_neighbors=k, random_state=seed))
+            dataset.X, n_neighbors=k, seed=seed))
 
 # TSNE
 algorithm = embed.TSNE
@@ -69,7 +70,7 @@ for p in perplexity:
         for e in early_exaggeration:
             for seed in random_seed:
                 results['TSNE']['output'][(p, l, e, seed)] = scale(algorithm(
-                    dataset.X, perplexity=p, learning_rate=l, early_exaggeration=e, random_state=seed))
+                    dataset.X, perplexity=p, learning_rate=l, early_exaggeration=e, seed=seed))
 
 # UMAP
 algorithm = embed.UMAP
@@ -85,7 +86,7 @@ for k in knn:
             while not complete:
                 try:
                     results['UMAP']['output'][(k, m, seed)] = scale(algorithm(
-                        dataset.X, n_neighbors=k, min_dist=m, random_state=actual_seed))
+                        dataset.X, n_neighbors=k, min_dist=m, seed=actual_seed))
                     complete = True
                 except np.linalg.LinAlgError:
                     actual_seed += 100
@@ -101,7 +102,7 @@ for k in knn:
         for g in gamma:
             for seed in random_seed:
                 results['PHATE']['output'][(k, a, g, seed)] = scale(algorithm(
-                    dataset.X, knn=k, decay=a, gamma=g, random_state=seed, n_jobs=10))
+                    dataset.X, knn=k, decay=a, gamma=g, seed=seed, n_jobs=10))
 
 # Procrustes on everything
 for algorithm in results.keys():
@@ -110,6 +111,10 @@ for algorithm in results.keys():
         output = results[algorithm]['output'][params]
         _, output, _ = scipy.spatial.procrustes(base, output)
         results[algorithm]['output'][params] = output
+
+# Add raw data
+results['input'] = dataset.X_true
+results['color'] = dataset.c
 
 
 with open("../data/parameter_search_detailed.pickle", 'wb') as f:

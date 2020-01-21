@@ -35,7 +35,7 @@ results['PCA'] = {'param_names': ['seed'],
                   'output': {}}
 for seed in random_seed:
     results['PCA']['output'][(seed,)] = scale(
-        algorithm(dataset.X, random_state=seed))
+        algorithm(dataset.X, seed=seed))
 
 # MDS
 algorithm = embed.MDS
@@ -45,7 +45,7 @@ results['MDS'] = {'param_names': ['seed'],
                   'output': {}}
 for seed in random_seed:
     results['MDS']['output'][(seed,)] = scale(
-        algorithm(dataset.X, random_state=seed))
+        algorithm(dataset.X, seed=seed))
 
 # ISOMAP
 algorithm = embed.ISOMAP
@@ -56,7 +56,7 @@ results['ISOMAP'] = {'param_names': ['knn', 'seed'],
 for k in knn:
     for seed in random_seed:
         results['ISOMAP']['output'][(k, seed)] = scale(algorithm(
-            dataset.X, n_neighbors=k, random_state=seed))
+            dataset.X, n_neighbors=k, seed=seed))
 
 # TSNE
 algorithm = embed.TSNE
@@ -67,7 +67,7 @@ results['TSNE'] = {'param_names': ['perplexity', 'seed'],
 for p in perplexity:
     for seed in random_seed:
         results['TSNE']['output'][(p, seed)] = scale(algorithm(
-            dataset.X, perplexity=p, random_state=seed))
+            dataset.X, perplexity=p, seed=seed))
 
 # UMAP
 algorithm = embed.UMAP
@@ -82,7 +82,7 @@ for k in knn:
         while not complete:
             try:
                 results['UMAP']['output'][(k, seed)] = scale(algorithm(
-                    dataset.X, n_neighbors=k, random_state=actual_seed))
+                    dataset.X, n_neighbors=k, seed=actual_seed))
                 complete = True
             except np.linalg.LinAlgError:
                 actual_seed += 100
@@ -96,7 +96,7 @@ results['PHATE'] = {'param_names': ['knn', 'seed'],
 for k in knn:
     for seed in random_seed:
         results['PHATE']['output'][(k, seed)] = scale(algorithm(
-            dataset.X, knn=k, random_state=seed))
+            dataset.X, knn=k, seed=seed))
 
 # Procrustes on everything
 for algorithm in results.keys():
@@ -106,6 +106,9 @@ for algorithm in results.keys():
         _, output, _ = scipy.spatial.procrustes(base, output)
         results[algorithm]['output'][params] = output
 
+# Add raw data
+results['input'] = dataset.X_true
+results['color'] = dataset.c
 
 with open("../data/parameter_search.pickle", 'wb') as f:
     pickle.dump(results, f, pickle.HIGHEST_PROTOCOL)
