@@ -118,4 +118,4 @@ results['color'] = dataset.c
 
 
 with open("../data/parameter_search_detailed.pickle", 'wb') as f:
-    pickle.dump(results, f, pickle.HIGHEST_PROTOCOL)
+    pickle.dump(results, f, pickle.HIGHEST_PROTOCOL-1)

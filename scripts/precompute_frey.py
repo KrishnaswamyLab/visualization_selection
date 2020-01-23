@@ -13,4 +13,4 @@ results['color'] = dataset.c
 results['images'] = dataset.X_true
 
 with open("../data/frey.pickle", 'wb') as f:
-    pickle.dump(results, f, pickle.HIGHEST_PROTOCOL)
+    pickle.dump(results, f, pickle.HIGHEST_PROTOCOL-1)
