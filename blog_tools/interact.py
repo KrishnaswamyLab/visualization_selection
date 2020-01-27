@@ -305,16 +305,16 @@ def quantification_plot(image_path, data_path, max_seed=50):
             clear_output()
             display(csv)
 
-    def randomize(*args, **kwargs):
-        success = False
-        while not success:
+    def randomize(*args, max_failures=max_seed, **kwargs):
+        for _ in range(max_failures):
             try:
                 seed = np.random.choice(max_seed)
                 change_table(seed)
                 change_image(seed)
-                success = True
+                return seed
             except FileNotFoundError:
                 pass
+        raise FileNotFoundError("no valid files found in {} or {}".format(image_path, data_path))
 
     randomizer = widgets.Button(description='Randomize!', tooltip='Change the random seed for the simulation')
     randomizer.on_click(randomize)
