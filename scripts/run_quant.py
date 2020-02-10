@@ -32,7 +32,7 @@ def measure_method(data, data_noised, embedding, name='',
     # onenn_true_score = quantify.shared_neighbors(data, embedding, knn=2)
     onenn_score = quantify.onenn_score(labels, embedding)
     # auc_score = quantify.shared_neighbors_AUC(data, embedding, knn=50)
-    ari_score = quantify.ari_score(labels, embedding)
+    ari_score = quantify.ari_score(labels, embedding, method='gmm')
     # svm_score = quantify.svm_score(labels, embedding)
     df = pd.DataFrame({'method': name,
                        'DEMaP': demap_score,
