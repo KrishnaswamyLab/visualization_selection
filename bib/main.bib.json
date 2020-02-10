@@ -1,0 +1,818 @@
+[
+  {
+    "author": [
+      {
+        "family": "Wold",
+        "given": "Svante"
+      },
+      {
+        "family": "Esbensen",
+        "given": "Kim"
+      },
+      {
+        "family": "Geladi",
+        "given": "Paul"
+      }
+    ],
+    "container-title": "Chemometrics and intelligent laboratory systems",
+    "id": "wold1987:PCA",
+    "issue": "1-3",
+    "issued": {
+      "date-parts": [
+        [
+          1987
+        ]
+      ]
+    },
+    "page": "37-52",
+    "publisher": "Elsevier",
+    "title": "Principal component analysis",
+    "type": "article-journal",
+    "volume": "2"
+  },
+  {
+    "author": [
+      {
+        "family": "Kruskal",
+        "given": "Joseph B"
+      }
+    ],
+    "container-title": "Psychometrika",
+    "id": "kruskal1964:MDS",
+    "issue": "1",
+    "issued": {
+      "date-parts": [
+        [
+          1964
+        ]
+      ]
+    },
+    "page": "1-27",
+    "publisher": "Springer",
+    "title": "Multidimensional scaling by optimizing goodness of fit to a nonmetric hypothesis",
+    "type": "article-journal",
+    "volume": "29"
+  },
+  {
+    "author": [
+      {
+        "family": "Coifman",
+        "given": "Ronald R"
+      },
+      {
+        "family": "Lafon",
+        "given": "Stéphane"
+      }
+    ],
+    "container-title": "Applied and computational harmonic analysis",
+    "id": "coifman2006:DiffusionMaps",
+    "issue": "1",
+    "issued": {
+      "date-parts": [
+        [
+          2006
+        ]
+      ]
+    },
+    "page": "5-30",
+    "publisher": "Elsevier",
+    "title": "Diffusion maps",
+    "type": "article-journal",
+    "volume": "21"
+  },
+  {
+    "author": [
+      {
+        "family": "Tenenbaum",
+        "given": "Joshua B"
+      },
+      {
+        "family": "De Silva",
+        "given": "Vin"
+      },
+      {
+        "family": "Langford",
+        "given": "John C"
+      }
+    ],
+    "container-title": "science",
+    "id": "tenenbaum2000:ISOMAP",
+    "issue": "5500",
+    "issued": {
+      "date-parts": [
+        [
+          2000
+        ]
+      ]
+    },
+    "page": "2319-2323",
+    "publisher": "American Association for the Advancement of Science",
+    "title": "A global geometric framework for nonlinear dimensionality reduction",
+    "type": "article-journal",
+    "volume": "290"
+  },
+  {
+    "author": [
+      {
+        "family": "Belkin",
+        "given": "Mikhail"
+      },
+      {
+        "family": "Niyogi",
+        "given": "Partha"
+      }
+    ],
+    "container-title": "Neural computation",
+    "id": "belkin2003:LaplacianEigenmaps",
+    "issue": "6",
+    "issued": {
+      "date-parts": [
+        [
+          2003
+        ]
+      ]
+    },
+    "page": "1373-1396",
+    "publisher": "MIT Press",
+    "title": "Laplacian eigenmaps for dimensionality reduction and data representation",
+    "type": "article-journal",
+    "volume": "15"
+  },
+  {
+    "author": [
+      {
+        "family": "Roweis",
+        "given": "Sam T"
+      },
+      {
+        "family": "Saul",
+        "given": "Lawrence K"
+      }
+    ],
+    "container-title": "science",
+    "id": "roweis2000:LLE",
+    "issue": "5500",
+    "issued": {
+      "date-parts": [
+        [
+          2000
+        ]
+      ]
+    },
+    "page": "2323-2326",
+    "publisher": "American Association for the Advancement of Science",
+    "title": "Nonlinear dimensionality reduction by locally linear embedding",
+    "type": "article-journal",
+    "volume": "290"
+  },
+  {
+    "author": [
+      {
+        "family": "Maaten",
+        "given": "Laurens van der"
+      },
+      {
+        "family": "Hinton",
+        "given": "Geoffrey"
+      }
+    ],
+    "container-title": "Journal of machine learning research",
+    "id": "vandermaaten2008:tSNE",
+    "issue": "Nov",
+    "issued": {
+      "date-parts": [
+        [
+          2008
+        ]
+      ]
+    },
+    "page": "2579-2605",
+    "title": "Visualizing data using t-sne",
+    "type": "article-journal",
+    "volume": "9"
+  },
+  {
+    "author": [
+      {
+        "family": "McInnes",
+        "given": "Leland"
+      },
+      {
+        "family": "Healy",
+        "given": "John"
+      },
+      {
+        "family": "Melville",
+        "given": "James"
+      }
+    ],
+    "container-title": "arXiv preprint arXiv:1802.03426",
+    "id": "mcinnes2018:UMAP",
+    "issued": {
+      "date-parts": [
+        [
+          2018
+        ]
+      ]
+    },
+    "title": "Umap: Uniform manifold approximation and projection for dimension reduction",
+    "title-short": "Umap",
+    "type": "article-journal"
+  },
+  {
+    "author": [
+      {
+        "family": "Moon",
+        "given": "Kevin R"
+      },
+      {
+        "dropping-particle": "van",
+        "family": "Dijk",
+        "given": "David"
+      },
+      {
+        "family": "Wang",
+        "given": "Zheng"
+      },
+      {
+        "family": "Gigante",
+        "given": "Scott"
+      },
+      {
+        "family": "Burkhardt",
+        "given": "Daniel B"
+      },
+      {
+        "family": "Chen",
+        "given": "William S"
+      },
+      {
+        "family": "Yim",
+        "given": "Kristina"
+      },
+      {
+        "dropping-particle": "van den",
+        "family": "Elzen",
+        "given": "Antonia"
+      },
+      {
+        "family": "Hirn",
+        "given": "Matthew J"
+      },
+      {
+        "family": "Coifman",
+        "given": "Ronald R"
+      },
+      {
+        "literal": "others"
+      }
+    ],
+    "container-title": "Nature Biotechnology",
+    "id": "moon2019:PHATE",
+    "issue": "12",
+    "issued": {
+      "date-parts": [
+        [
+          2019
+        ]
+      ]
+    },
+    "page": "1482-1492",
+    "publisher": "Nature Publishing Group",
+    "title": "Visualizing structure and transitions in high-dimensional biological data",
+    "type": "article-journal",
+    "volume": "37"
+  },
+  {
+    "author": [
+      {
+        "family": "Wattenberg",
+        "given": "Martin"
+      },
+      {
+        "family": "Viégas",
+        "given": "Fernanda"
+      },
+      {
+        "family": "Johnson",
+        "given": "Ian"
+      }
+    ],
+    "container-title": "Distill",
+    "id": "wattenberg2016:tSNEEffectively",
+    "issue": "10",
+    "issued": {
+      "date-parts": [
+        [
+          2016
+        ]
+      ]
+    },
+    "page": "e2",
+    "title": "How to use t-sne effectively",
+    "type": "article-journal",
+    "volume": "1"
+  },
+  {
+    "author": [
+      {
+        "family": "Kushilevitz",
+        "given": "Eyal"
+      },
+      {
+        "family": "Ostrovsky",
+        "given": "Rafail"
+      },
+      {
+        "family": "Rabani",
+        "given": "Yuval"
+      }
+    ],
+    "container-title": "SIAM Journal on Computing",
+    "id": "kushilevitz2000:ANN",
+    "issue": "2",
+    "issued": {
+      "date-parts": [
+        [
+          2000
+        ]
+      ]
+    },
+    "page": "457-474",
+    "publisher": "SIAM",
+    "title": "Efficient search for approximate nearest neighbor in high dimensional spaces",
+    "type": "article-journal",
+    "volume": "30"
+  },
+  {
+    "author": [
+      {
+        "family": "Zappia",
+        "given": "Luke"
+      },
+      {
+        "family": "Phipson",
+        "given": "Belinda"
+      },
+      {
+        "family": "Oshlack",
+        "given": "Alicia"
+      }
+    ],
+    "container-title": "Genome biology",
+    "id": "zappia2017:Splatter",
+    "issue": "1",
+    "issued": {
+      "date-parts": [
+        [
+          2017
+        ]
+      ]
+    },
+    "page": "174",
+    "publisher": "BioMed Central",
+    "title": "Splatter: Simulation of single-cell rna sequencing data",
+    "title-short": "Splatter",
+    "type": "article-journal",
+    "volume": "18"
+  },
+  {
+    "author": [
+      {
+        "family": "Pedregosa",
+        "given": "F."
+      },
+      {
+        "family": "Varoquaux",
+        "given": "G."
+      },
+      {
+        "family": "Gramfort",
+        "given": "A."
+      },
+      {
+        "family": "Michel",
+        "given": "V."
+      },
+      {
+        "family": "Thirion",
+        "given": "B."
+      },
+      {
+        "family": "Grisel",
+        "given": "O."
+      },
+      {
+        "family": "Blondel",
+        "given": "M."
+      },
+      {
+        "family": "Prettenhofer",
+        "given": "P."
+      },
+      {
+        "family": "Weiss",
+        "given": "R."
+      },
+      {
+        "family": "Dubourg",
+        "given": "V."
+      },
+      {
+        "family": "Vanderplas",
+        "given": "J."
+      },
+      {
+        "family": "Passos",
+        "given": "A."
+      },
+      {
+        "family": "Cournapeau",
+        "given": "D."
+      },
+      {
+        "family": "Brucher",
+        "given": "M."
+      },
+      {
+        "family": "Perrot",
+        "given": "M."
+      },
+      {
+        "family": "Duchesnay",
+        "given": "E."
+      }
+    ],
+    "container-title": "Journal of Machine Learning Research",
+    "id": "scikit-learn",
+    "issued": {
+      "date-parts": [
+        [
+          2011
+        ]
+      ]
+    },
+    "page": "2825-2830",
+    "title": "Scikit-learn: Machine learning in Python",
+    "title-short": "Scikit-learn",
+    "type": "article-journal",
+    "volume": "12"
+  },
+  {
+    "author": [
+      {
+        "family": "Consortium",
+        "given": "1000 Genomes Project"
+      },
+      {
+        "literal": "others"
+      }
+    ],
+    "container-title": "Nature",
+    "id": "consortium2015:1000GenomeProject",
+    "issue": "7571",
+    "issued": {
+      "date-parts": [
+        [
+          2015
+        ]
+      ]
+    },
+    "page": "68-74",
+    "publisher": "Nature Publishing Group",
+    "title": "A global reference for human genetic variation",
+    "type": "article-journal",
+    "volume": "526"
+  },
+  {
+    "author": [
+      {
+        "family": "Diaz-Papkovich",
+        "given": "Alex"
+      },
+      {
+        "family": "Anderson-Trocmé",
+        "given": "Luke"
+      },
+      {
+        "family": "Gravel",
+        "given": "Simon"
+      }
+    ],
+    "container-title": "PLoS genetics",
+    "id": "diaz2019:UMAPPopulationStructure",
+    "issue": "11",
+    "issued": {
+      "date-parts": [
+        [
+          2019
+        ]
+      ]
+    },
+    "publisher": "Public Library of Science",
+    "title": "UMAP reveals cryptic population structure and phenotype heterogeneity in large genomic cohorts",
+    "type": "article-journal",
+    "volume": "15"
+  },
+  {
+    "author": [
+      {
+        "family": "Hellenthal",
+        "given": "Garrett"
+      },
+      {
+        "family": "Busby",
+        "given": "George BJ"
+      },
+      {
+        "family": "Band",
+        "given": "Gavin"
+      },
+      {
+        "family": "Wilson",
+        "given": "James F"
+      },
+      {
+        "family": "Capelli",
+        "given": "Cristian"
+      },
+      {
+        "family": "Falush",
+        "given": "Daniel"
+      },
+      {
+        "family": "Myers",
+        "given": "Simon"
+      }
+    ],
+    "container-title": "Science",
+    "id": "hellenthal2014:HumanGeneticAdmixture",
+    "issue": "6172",
+    "issued": {
+      "date-parts": [
+        [
+          2014
+        ]
+      ]
+    },
+    "page": "747-751",
+    "publisher": "American Association for the Advancement of Science",
+    "title": "A genetic atlas of human admixture history",
+    "type": "article-journal",
+    "volume": "343"
+  },
+  {
+    "author": [
+      {
+        "family": "Norris",
+        "given": "Emily T"
+      },
+      {
+        "family": "Wang",
+        "given": "Lu"
+      },
+      {
+        "family": "Conley",
+        "given": "Andrew B"
+      },
+      {
+        "family": "Rishishwar",
+        "given": "Lavanya"
+      },
+      {
+        "family": "Mariño-Ramı́rez",
+        "given": "Leonardo"
+      },
+      {
+        "family": "Valderrama-Aguirre",
+        "given": "Augusto"
+      },
+      {
+        "family": "Jordan",
+        "given": "I King"
+      }
+    ],
+    "container-title": "BMC genomics",
+    "id": "norris2018:LatinAmericaAdmixture",
+    "issue": "8",
+    "issued": {
+      "date-parts": [
+        [
+          2018
+        ]
+      ]
+    },
+    "page": "75-87",
+    "publisher": "BioMed Central",
+    "title": "Genetic ancestry, admixture and health determinants in latin america",
+    "type": "article-journal",
+    "volume": "19"
+  },
+  {
+    "author": [
+      {
+        "family": "Campbell",
+        "given": "Michael C"
+      },
+      {
+        "family": "Tishkoff",
+        "given": "Sarah A"
+      }
+    ],
+    "container-title": "Annu. Rev. Genomics Hum. Genet.",
+    "id": "campbell2008:AfricaGeneticDiversity",
+    "issued": {
+      "date-parts": [
+        [
+          2008
+        ]
+      ]
+    },
+    "page": "403-433",
+    "publisher": "Annual Reviews",
+    "title": "African genetic diversity: Implications for human demographic history, modern human origins, and complex disease mapping",
+    "title-short": "African genetic diversity",
+    "type": "article-journal",
+    "volume": "9"
+  },
+  {
+    "author": [
+      {
+        "family": "Yuan",
+        "given": "Guo-Cheng"
+      },
+      {
+        "family": "Cai",
+        "given": "Long"
+      },
+      {
+        "family": "Elowitz",
+        "given": "Michael"
+      },
+      {
+        "family": "Enver",
+        "given": "Tariq"
+      },
+      {
+        "family": "Fan",
+        "given": "Guoping"
+      },
+      {
+        "family": "Guo",
+        "given": "Guoji"
+      },
+      {
+        "family": "Irizarry",
+        "given": "Rafael"
+      },
+      {
+        "family": "Kharchenko",
+        "given": "Peter"
+      },
+      {
+        "family": "Kim",
+        "given": "Junhyong"
+      },
+      {
+        "family": "Orkin",
+        "given": "Stuart"
+      },
+      {
+        "literal": "others"
+      }
+    ],
+    "container-title": "Genome biology",
+    "id": "yuan2017:SingleCellChallenges",
+    "issue": "1",
+    "issued": {
+      "date-parts": [
+        [
+          2017
+        ]
+      ]
+    },
+    "page": "84",
+    "publisher": "Springer",
+    "title": "Challenges and emerging directions in single-cell analysis",
+    "type": "article-journal",
+    "volume": "18"
+  },
+  {
+    "author": [
+      {
+        "family": "Luecken",
+        "given": "Malte D"
+      },
+      {
+        "family": "Theis",
+        "given": "Fabian J"
+      }
+    ],
+    "container-title": "Molecular systems biology",
+    "id": "luecken2019:SingleCellBestPractices",
+    "issue": "6",
+    "issued": {
+      "date-parts": [
+        [
+          2019
+        ]
+      ]
+    },
+    "publisher": "John Wiley & Sons, Ltd",
+    "title": "Current best practices in single-cell rna-seq analysis: A tutorial",
+    "title-short": "Current best practices in single-cell rna-seq analysis",
+    "type": "article-journal",
+    "volume": "15"
+  },
+  {
+    "author": [
+      {
+        "family": "Van Dijk",
+        "given": "David"
+      },
+      {
+        "family": "Sharma",
+        "given": "Roshan"
+      },
+      {
+        "family": "Nainys",
+        "given": "Juozas"
+      },
+      {
+        "family": "Yim",
+        "given": "Kristina"
+      },
+      {
+        "family": "Kathail",
+        "given": "Pooja"
+      },
+      {
+        "family": "Carr",
+        "given": "Ambrose J"
+      },
+      {
+        "family": "Burdziak",
+        "given": "Cassandra"
+      },
+      {
+        "family": "Moon",
+        "given": "Kevin R"
+      },
+      {
+        "family": "Chaffer",
+        "given": "Christine L"
+      },
+      {
+        "family": "Pattabiraman",
+        "given": "Diwakar"
+      },
+      {
+        "literal": "others"
+      }
+    ],
+    "container-title": "Cell",
+    "id": "vandijk2018:MAGIC",
+    "issue": "3",
+    "issued": {
+      "date-parts": [
+        [
+          2018
+        ]
+      ]
+    },
+    "page": "716-729",
+    "publisher": "Elsevier",
+    "title": "Recovering gene interactions from single-cell data using data diffusion",
+    "type": "article-journal",
+    "volume": "174"
+  },
+  {
+    "author": [
+      {
+        "dropping-particle": "van der",
+        "family": "Maaten",
+        "given": "L. J. P."
+      },
+      {
+        "family": "Postma",
+        "given": "E. O."
+      },
+      {
+        "dropping-particle": "van den",
+        "family": "Herik",
+        "given": "H. J."
+      }
+    ],
+    "id": "vandermaaten2008:DimensionalityReductionReview:",
+    "issued": {
+      "date-parts": [
+        [
+          2008
+        ]
+      ]
+    },
+    "title": "Dimensionality reduction: A comparative review",
+    "title-short": "Dimensionality reduction",
+    "type": "no-type"
+  }
+]
