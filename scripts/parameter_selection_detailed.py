@@ -110,6 +110,9 @@ for algorithm in results.keys():
     for params in results[algorithm]['output'].keys():
         output = results[algorithm]['output'][params]
         _, output, _ = scipy.spatial.procrustes(base, output)
+        # scale to 0, 1
+        output -= np.min(output, axis=0)
+        output /= np.max(output)
         results[algorithm]['output'][params] = output
 
 # Add raw data
