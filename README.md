@@ -1,5 +1,7 @@
 # Visualization selection
 
+[![Launch in Binder](https://mybinder.org/badge_logo.svg)](https://mybinder.org/v2/gh/KrishnaswamyLab/visualization_selection/master?filepath=Selecting_the_right_tool_for_the_job.ipynb)
+
 This is the repository used to generate and host the following paper accepted to 2nd Workshop on Visualization for AI Explainability ([VisxAI](visxai.io)):  
 
 **Selecting the right tool for the job: understanding drawbacks and biases in visualization methods**  
