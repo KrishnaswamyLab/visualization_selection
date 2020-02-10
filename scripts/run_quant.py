@@ -13,6 +13,7 @@ from blog_tools import embed, data, quantify
 import pandas as pd
 import numpy as np
 import sys
+import os
 import tasklogger
 
 from joblib import Parallel, delayed
@@ -90,11 +91,17 @@ def measure_all_methods(load_fn,
     return df
 
 seed = int(sys.argv[1])
-paths_out = measure_all_methods(data.Paths, seed=seed)
-paths_out.to_csv("../data/quant/paths/{}.csv".format(seed))
+OVERWRITE = False
 
-groups_out = measure_all_methods(data.Groups, seed=int(sys.argv[1]))
-groups_out.to_csv("../data/quant/groups/{}.csv".format(seed))
+paths_out_path = "../data/quant/paths/{}.csv".format(seed)
+if OVERWRITE or not os.path.isfile(paths_out_path):
+    paths_out = measure_all_methods(data.Paths, seed=seed)
+    paths_out.to_csv(paths_out_path)
+
+groups_out_path = "../data/quant/groups/{}.csv".format(seed)
+if OVERWRITE or not os.path.isfile(groups_out_path):
+    groups_out = measure_all_methods(data.Groups, seed=int(sys.argv[1]))
+    groups_out.to_csv(groups_out_path)
 
 
 # for i in {0..9}; do
