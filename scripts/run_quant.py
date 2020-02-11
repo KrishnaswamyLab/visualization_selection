@@ -19,7 +19,9 @@ import tasklogger
 from joblib import Parallel, delayed
 from functools import partial
 
-
+_PATH = "../{}/quant1/{{}}/{{}}.{}"
+DATA_PATH = _PATH.format("data", "csv")
+IMG_PATH = _PATH.format("img", "png")
 
 def measure_method(data, data_noised, embedding, name='',
                    subsample_idx=None,
@@ -78,7 +80,7 @@ def measure_all_methods(load_fn,
         scprep.plot.scatter2d(embedding, ax=ax, label_prefix=method.__name__, 
                               ticks=False, c=dataset.c, legend=False)
     plt.tight_layout()
-    fig.savefig("../img/quant/{}/{}.png".format(dataset.name, seed))
+    fig.savefig(IMG_PATH.format(dataset.name, seed))
     # evaluate
     tasklogger.log_info("Evaluating...")
     results = [measure_method(embedding=embedding, data=data_truth, data_noised=data_noised,
@@ -93,12 +95,12 @@ def measure_all_methods(load_fn,
 seed = int(sys.argv[1])
 OVERWRITE = False
 
-paths_out_path = "../data/quant/paths/{}.csv".format(seed)
+paths_out_path = DATA_PATH.format("paths", seed)
 if OVERWRITE or not os.path.isfile(paths_out_path):
     paths_out = measure_all_methods(data.Paths, seed=seed)
     paths_out.to_csv(paths_out_path)
 
-groups_out_path = "../data/quant/groups/{}.csv".format(seed)
+groups_out_path = DATA_PATH.format("groups", seed)
 if OVERWRITE or not os.path.isfile(groups_out_path):
     groups_out = measure_all_methods(data.Groups, seed=int(sys.argv[1]))
     groups_out.to_csv(groups_out_path)
