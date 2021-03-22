@@ -54,16 +54,21 @@ class Isomap_(sklearn.manifold.Isomap):
         self.embedding_ = self.kernel_pca_.fit_transform(G)
 
 
-def PHATE(X, *args, is_graph=False, knn_dist='euclidean', verbose=0, seed=None, n_jobs=15, **kwargs):
+def PHATE(X, *args, is_graph=False, knn_dist='euclidean', solver='smacof', verbose=0, seed=None, n_jobs=15, **kwargs):
     if knn_dist is None:
         if is_graph:
             knn_dist = 'precomputed'
     tasklogger.log_start("PHATE")
     Y = phate.PHATE(*args, knn_dist=knn_dist, verbose=verbose,
                        random_state=seed, n_jobs=n_jobs,
+                    mds_solver=solver,
                        **kwargs).fit_transform(X)
     tasklogger.log_complete("PHATE")
     return Y
+
+
+def PHATE_sgd(*args, solver='sgd', **kwargs):
+    return PHATE(*args, solver=solver, **kwargs)
 
 
 def UMAP(X, *args, is_graph=False, seed=None, **kwargs):
@@ -83,6 +88,14 @@ def MDS(X, *args, is_graph=False, dissimilarity='euclidean', seed=None, n_jobs=1
                                 **kwargs).fit_transform(X)
     tasklogger.log_complete("MDS")
     return Y
+
+def TSNE_pca_init(X, *args, is_graph=False, metric='euclidean', seed=None, **kwargs):
+    if is_graph:
+        X = utils.geodesic_distance(X)
+        metric = 'precomputed'
+    init = PCA(X)
+    init = init/np.std(init[:,0]) * 0.0001
+    return TSNE(X, *args, init=init, metric=metric, seed=seed, early_exaggeration=1, **kwargs)
 
 
 def TSNE(X, *args, is_graph=False, metric='euclidean', seed=None, **kwargs):
@@ -105,10 +118,10 @@ def ISOMAP(X, *args, is_graph=False, seed=None, **kwargs):
     return Y
 
 
-def PCA(X, *args, is_graph=False, seed=None, **kwargs):
+def PCA(X, *args, is_graph=False, seed=None, n_components=2, **kwargs):
     X = scprep.utils.toarray(X)
     tasklogger.log_start("PCA")
-    Y = sklearn.decomposition.PCA(*args, random_state=seed, **kwargs).fit_transform(X)
+    Y = sklearn.decomposition.PCA(*args, n_components=n_components, random_state=seed, **kwargs).fit_transform(X)
     tasklogger.log_complete("PCA")
     return Y
 
