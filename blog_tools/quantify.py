@@ -3,7 +3,7 @@ from scipy.spatial.distance import pdist, squareform
 from scipy.stats import spearmanr
 import numpy as np
 import pandas as pd
-from sklearn import neighbors, cluster, metrics, svm, model_selection
+from sklearn import neighbors, cluster, metrics, svm, model_selection, mixture
 from joblib import Parallel, delayed
 
 
@@ -38,12 +38,17 @@ def shared_neighbors(data, embedding, knn=200, n_jobs=20):
     knn_data = knn_op.fit(data).kneighbors(data, return_distance=False)
     return np.mean([np.isin(knn_embedding[i,1:], knn_data[i,1:]) for i in range(knn_data.shape[0])])
 
-def compute_ari(labels, embedding, n_clusters=8, random_state=None):
-    kmeans_op = cluster.KMeans(n_clusters, random_state=random_state)
-    clusters = kmeans_op.fit_predict(embedding)
+def compute_ari(labels, embedding, n_clusters=8, random_state=None, method='kmeans'):
+    if method == 'kmeans':
+        cluster_op = cluster.KMeans(n_clusters, random_state=random_state)
+    elif method == 'gmm':
+        cluster_op = mixture.GaussianMixture(n_clusters, random_state=random_state)
+    else:
+        raise NotImplementedError
+    clusters = cluster_op.fit_predict(embedding)
     return metrics.adjusted_rand_score(labels, clusters)
 
-def ari_score(labels, embedding, n_jobs=20, n_reps=100, random_state=None):
+def ari_score(labels, embedding, n_jobs=20, n_reps=100, random_state=None, method='kmeans'):
     np.random.seed(random_state)
     labels, label_names = pd.factorize(labels)
     n_clusters = len(label_names)
